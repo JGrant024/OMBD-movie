@@ -1,40 +1,61 @@
 import { useState, useEffect } from "react";
-import LookupForm from "./LookupForm";
 
-function MoviesList() {
-  const [data, setData] = useState({});
+function MoviesList({ title }) {
+  const [data, setData] = useState("");
+
+  const apiKey = "d193b176";
+
   const fetchData = async () => {
-    const apiKey = "d193b176";
-    const url = "https://www.omdbapi.com/?i=tt3896198&apikey=d193b176";
-
+    const url = `http://www.omdbapi.com/?t=${title}&apikey=${apiKey}`;
     const apiData = await fetch(url).then((response) => response.json());
-    console.log(apiData);
+
     setData(apiData);
-
-    const handleChange = (e) => {
-      apiData((currentState) => ({
-        ...currentState,
-        [e.target.name]: e.target.value,
-      }));
-    };
-
-    // const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   // call the function that was passed down
-    //   // this will send the data back up tp the parent app.jsx
-    //   action(myInput);
-    // };
+    console.log("api data:", apiData);
   };
+
   useEffect(() => {
     fetchData();
-  }, []);
+    console.log("Use effect process:", title);
+  }, [title]);
 
   return (
     <>
-      <h1>Movie Search Results</h1>
-      <div>{data.title}</div>
+      {/* <p>{data.title}</p> */}
+      {/* {data && data.ratings?.length &&} ( */}
+      <>
+        <h1>{data.title}</h1>
+        <div>{data.Year}</div>
+        <div>
+          <img src={data.Poster} alt={data.title} />
+        </div>
+        <p>{data.Plot}</p>
+        <p>Ratings:</p>
+        {data.Ratings ? (
+          <ul>
+            {data.Ratings.map((item, index) => (
+              <li key={index}>
+                {item.Source}:{item.Value}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>no ratings</p>
+        )}
+      </>
     </>
   );
-}
+  // const handleChange = (e) => {
+  //   apiData((currentState) => ({
+  //     ...currentState,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // call the function that was passed down
+  //   // this will send the data back up tp the parent app.jsx
+  //   action(myInput);
+  // };
+}
 export default MoviesList;

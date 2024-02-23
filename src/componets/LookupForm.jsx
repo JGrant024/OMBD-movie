@@ -1,27 +1,30 @@
 import { useState } from "react";
-import MoviesList from "./MoviesList";
 
 const LookupForm = ({ action }) => {
-//   const [moviePoster, setMoviePoster] = useState("");
-//   const [movieTitle, setMovieTitle] = useState(" ");
-//   const [releaseYear, setReleaseYear] = useState("");
-//   const [plotDescripton, setPlotDescription] = useState(" ");
-//   const [ratings, setRatings] = useState("");
+  const [movieTitles, setMovieTitles] = useState("");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('form submit value:', movieTitles)
+    action(movieTitles);
+  };
   const handleChange = (e) => {
-    ((currentState) => ({
-      ...currentState,
-      [e.target.name]: e.target.value,
-    }));
+    const { value } = e.target;
+    setMovieTitles(value);
   };
 
   return (
     <>
       <h1>OMBD MOVIES</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Movie Title Lookup
-          <input type="text" name="" value={""} />
+          <input
+            type="text"
+            name="movieTitles"
+            value={movieTitles}
+            onChange={handleChange}
+          />
         </label>
         <button type="submit">Find Movie</button>
       </form>
