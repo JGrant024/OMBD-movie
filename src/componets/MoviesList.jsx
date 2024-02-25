@@ -20,8 +20,6 @@ function MoviesList({ title }) {
 
   return (
     <>
-      {/* <p>{data.title}</p> */}
-      {/* {data && data.ratings?.length &&} ( */}
       <>
         <h1>{data.title}</h1>
         <div>{data.Year}</div>
